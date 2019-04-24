@@ -45,111 +45,67 @@ For every "telemetry", I can send
 
 ## 4. My intention of algorithm
 
-My intention for algorithm is very simple
+Clearly, I need to calculate steering angle by using Kp, Ki, Kd
 
-Just make beginner driver!
+But firstly, I concerned about controling speed or not
 
-This is some principles my beginner driver should obey
+Controlling speed means calculate speed by using Kp, Ki, Kd every time when value is updated
 
-1. Obey speed limit
+I thought about the method real human drive
 
-2. Keep lane until a car showed up in front
+When I drive and have to curve, I speed up at straight lane,
 
-3. Change lane when front is blocked
+and shortly before curve, slow down to pass a curve safely
 
-4. If want change lane, there should be no car near 10m in intended lane behind
+And I concluded it is difficult to act like this only using CTE information
 
-5. If want change lane, select lane that have bigger space between front car
+To do that, I need map data, and need to know where the curve is, so where do I have slow down
 
-And this is Finite State Machine explaining all this principles
+So, I excluded speed in my have to control list
 
-<img src="./images/FSM.png" width="600">
+The rest of duty is only parameter tuning
+
+And I tried not using twiddle but just try case by case
+
 
 
 # Background Learning
 
 
-### 1. Total Subject Flow
+### 1. PID control
 
-This project is collection of Self Driving Car projects
+To control steering angle, we can calculate its angle by
 
-Every concept I learned until now is represented in this project
+alpha = -Kp * CTE -Ki * delta(CTE) - Kd * sum(CTE)
 
-Sensor fusion is used to detect any objects using radar/ridar
+It is reason why being called PID control
 
-Localization is used to find my exact position
+There are 3 coefficient Kp, Ki, Kd
 
-Search is used to find optimal path to destination
+1) P means "Propotional"
 
-Prediction is used to predict next behavior of sensored objects
+It affect to steering to turn as much as you are apart from target position
 
-Behavioral planning is used to planning my action against predicted object's behavior
+2) I means "Integral"
 
-Trajectory generation is finally used to make trajectory for my final action
+It is important when my car allignment is not good so it cannot go straight even though steering is straight
 
-<img src="./images/total_subject_flow.jpg" width="400">
+3) D means "Differential"
+
+It can prevent oscillation of car
+
+When using only P term, the car will oscillate inevitably
 
 
-### 2. Search
+<img src="./images/pid_control.jpg" width="400">
 
-For searching optimal path to destination, I learned A* & A* hibrid algorithm
 
-A* hibrid algorithm is equal to A* but is different at continuous moving
-
-<img src="./images/search.jpg" width="400">
-
-### 3. Prediction
-
-To drive manually, after getting map data and knowing where the other cars are, I will curious about what will they do
-
-There are two approaches for prediction
-
-First method is called Model-based approach, using mathmatics and physics
-
-Second method is called Data-driven approach
-
-It needs so many labeled data
-
-Then by using Naive Bayes Classifier, we can predict next action of detected objects
-
-<img src="./images/prediction.jpg" width="400">
-<img src="./images/prediction_2.jpg" width="400">
-<img src="./images/prediction_3.jpg" width="400">
-<img src="./images/prediction_4.jpg" width="400">
-
-### 4. Behavior Planning
-
-After Knowing what the other car do, I have to decide then, what will I do next?
-
-To do I have to define Finite State Machine
-
-That is method to define all the cases can happen in driving situation
-
-In other words, if there happen the case I didn't define, there will be accident
-
-So it will useful just like this highway simulation case
-
-<img src="./images/behavior_planning.jpg" width="400">
-
-### 5. Trajectory Generation
-
-Making a trajectory after deciding action is just math
-
-But have to careful about not to make jerk or rapid acceleration
-
-Make polynimial path through point I decided
-
-<img src="./images/trajectory_generation.jpg" width="400">
-<img src="./images/trajectory_generation_2.jpg" width="400">
-<img src="./images/trajectory_generation_3.jpg" width="400">
-<img src="./images/trajectory_generation_4.jpg" width="400">
-<img src="./images/trajectory_generation_5.jpg" width="400">
-<img src="./images/trajectory_generation_6.jpg" width="400">
 
 # Content Of This Repo
 - ```src``` a directory with the project code
-	- ```main.cpp``` : communicate with simulator, reads in data, calls a function in helpers.h to drive
-	- ```helpers.h``` : have functions have to be used in main.cpp
+	- ```main.cpp``` : communicate with simulator, reads in data, calls a function in PID.h to drive
+	- ```PID.h``` : header file of PID
+	- ```PID.cpp``` : have functions have to be used in main.cpp
 
 
 
@@ -162,46 +118,55 @@ Before makeing code, I made flow chart to check total flow and check what functi
 ##### main.cpp
 <img src="./images/flow_chart_main.png" width="800">
 
-##### check_too_close function
-<img src="./images/flow_chart_check_too_close.png" width="800">
-
-##### try_lane_change
-<img src="./images/flow_chart_try_lane_change.png" width="800">
-
-##### lane_change_cost
-<img src="./images/flow_chart_lane_change_cost.png" width="800">
-
 
 # Results
 
-It drove well without ant jerks or collides
-
-<img src="./images/result_1.png" width="700">
-<img src="./images/result_2.png" width="700">
+It drove well without leaving the lane
 
 
 # Conclusion & Discussion
 
-### 1. About limitation
+### 1. About parameter tuning
 
-In this project, I did not use search and prediction
+Firstly, I concluded not to use Ki
 
-Maybe it can be apart from the intention of project
+Because it is only useful when allignment of car is not good
 
-My algorithm is just check there is car nearby and make trajectory to change my lane
+But it is simulation, so allignment will be perfect, so I set Ki = 0.0
 
-It can be useful because this project is just driving in simple highway
+Secondl, I set only Kp = 0.1
 
-I didn't have to calculate optimal path to destination,
+And anticipated it will oscillate but I just wonder it can react at sharp curve
 
-I didn't have to predict opponent car's behavior at intersection
+But without Kd, even a little curve caused oscillation and makes it larger and larger
 
-So I am very looking forward to final project, driving autonomously at real city
+So it cannot go farther
 
+Thirdly, I added Kd = 0.1 (Kp = 0.1)
 
+Relativly, I drives a little better than before one
 
+But it is insufficient to resist to oscillation
 
+Fourthly, I raised the Kd = 0.5 (Kp = 0.1)
 
+Expectedly, I drives one lap successfully
+
+Comparing to before one, it can endure better at oscillation
+
+So I concluded Kp means the ability to react at curve
+
+and Kd means ability of stabilization
+
+By that conclusion, I think it will better to raise Kp more,
+
+and to counter balance that effect, also need to raise Kd
+
+And Kp is muliplied to CTE, but Kd is multiplied to delta(CTE)
+
+So Kd should much larger than Kp to affect equally to steering angle
+
+Finally I selected Kp = 0.13, Kd = 0.8, Ki = 0.0
 
 
 
