@@ -48,7 +48,7 @@ For every "telemetry", I can send
 
 Clearly, I need to calculate steering angle by using Kp, Ki, Kd
 
-But firstly, I concerned about controling speed or not
+But firstly, I concerned about controlling speed or not
 
 Controlling speed means calculate speed by using Kp, Ki, Kd every time when value is updated
 
