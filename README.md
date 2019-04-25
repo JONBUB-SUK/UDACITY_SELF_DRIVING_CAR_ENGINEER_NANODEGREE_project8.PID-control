@@ -114,7 +114,7 @@ When using only P term, the car will oscillate inevitably
 
 ## 1. Flow Chart
 
-Before makeing code, I made flow chart to check total flow and check what function will be need
+Before making code, I made flow chart to check total flow and check what function will be need
 
 ##### main.cpp
 <img src="./images/flow_chart_main.png" width="800">
