@@ -145,13 +145,13 @@ So it cannot go farther
 
 Thirdly, I added Kd = 0.1 (Kp = 0.1)
 
-Relativly, I drives a little better than before one
+Relativly, it drove little better than before one
 
 But it is insufficient to resist to oscillation
 
 Fourthly, I raised the Kd = 0.5 (Kp = 0.1)
 
-Expectedly, I drives one lap successfully
+Expectedly, it drove one lap successfully
 
 Comparing to before one, it can endure better at oscillation
 
