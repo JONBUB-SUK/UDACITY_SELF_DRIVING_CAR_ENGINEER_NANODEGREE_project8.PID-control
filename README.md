@@ -52,9 +52,9 @@ But firstly, I concerned about controlling speed or not
 
 Controlling speed means calculate speed by using Kp, Ki, Kd every time when value is updated
 
-I thought about the method real human drive
+So I thought about the method real human drive
 
-When I drive and have to curve, I speed up at straight lane,
+When I drive and have to pass curve, I speed up at straight lane,
 
 and shortly before curve, slow down to pass a curve safely
 
