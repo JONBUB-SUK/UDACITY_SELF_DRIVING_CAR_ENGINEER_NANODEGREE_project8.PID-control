@@ -38,6 +38,7 @@ For every "telemetry"
 - steering angle
 
 2. Ouput
+
 For every "telemetry", I can send
 - steering angle
 - throttle
