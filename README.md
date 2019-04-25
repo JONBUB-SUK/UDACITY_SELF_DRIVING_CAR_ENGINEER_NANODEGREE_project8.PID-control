@@ -10,7 +10,7 @@ Simulation map is same as Behavior cloning project
 
 But it has a big difference in the approach
 
-Behavior cloning used deep learning to tech simulator to drive
+Behavior cloning used deep learning to teach simulator to drive
 
 To do that, I need to drive myself to collect steering angle data
 
