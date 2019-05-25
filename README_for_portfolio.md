@@ -76,13 +76,13 @@ There are 3 coefficient Kp, Ki, Kd
 
 2) I means "Integral"
 
-It is important when my car allignment is not good so it cannot go straight even though steering is straight
+	It is important when my car allignment is not good so it cannot go straight even though steering is straight
 
 3) D means "Differential"
 
-It can prevent oscillation of car
+	It can prevent oscillation of car
 
-When using only P term, the car will oscillate inevitably
+	When using only P term, the car will oscillate inevitably
 
 
 ## 3. Details
