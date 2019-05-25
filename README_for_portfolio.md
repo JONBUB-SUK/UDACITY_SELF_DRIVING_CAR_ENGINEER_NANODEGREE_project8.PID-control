@@ -72,7 +72,7 @@ There are 3 coefficient Kp, Ki, Kd
 
 1) P means "Propotional"
 
-It affect to steering to turn as much as you are apart from target position
+	It affect to steering to turn as much as you are apart from target position
 
 2) I means "Integral"
 
